@@ -1,4 +1,4 @@
-import 'package:academic_calendar/Screens/MyHomePage.dart';
+import 'package:academic_calendar/Screens/my_home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
