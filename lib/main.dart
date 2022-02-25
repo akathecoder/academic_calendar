@@ -26,7 +26,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const LoginPage(title: 'Academic Calendar'),
+      routes: {
+        MyHomePage.id: (context) =>
+            const MyHomePage(title: "Academic Calendar"),
+        LoginPage.id: (context) => const LoginPage(),
+      },
+      initialRoute: MyHomePage.id,
     );
   }
 }

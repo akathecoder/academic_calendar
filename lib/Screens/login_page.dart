@@ -1,16 +1,12 @@
+import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/login_form_utilities.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-
-final FirebaseAuth auth = FirebaseAuth.instance;
 
 class LoginPage extends StatefulWidget {
   static String id = "loginPage";
 
-  final String title;
-
-  const LoginPage({Key? key, required this.title}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -18,6 +14,43 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _emailTextFieldController = TextEditingController();
+  final _passwordTextFieldController = TextEditingController();
+
+  void loginUserOnSubmit() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Processing Data\nEmail: ${_emailTextFieldController.text}\nPassword: ${_passwordTextFieldController.text}',
+        ),
+      ),
+    );
+
+    loginUserWithEmailAndPassword(
+            _emailTextFieldController.text, _passwordTextFieldController.text)
+        .then((value) => Navigator.pop(context));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getLoginedUser().then(
+      (value) => {
+        if (value != null)
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            Navigator.pop(context);
+          })
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailTextFieldController.dispose();
+    _passwordTextFieldController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,22 +108,27 @@ class _LoginPageState extends State<LoginPage> {
                     autovalidateMode: AutovalidateMode.always,
                     child: Column(
                       children: [
-                        const CustomInputBox(
+                        CustomInputBox(
                           icon: Icons.person,
                           hintText: 'Enter your email id',
                           labelText: 'Email ID',
                           validateFunction: validateEmail,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
+                          textEditingController: _emailTextFieldController,
                         ),
-                        const CustomInputBox(
+                        CustomInputBox(
                           icon: Icons.lock,
                           hintText: 'Enter your password',
                           labelText: 'Password',
                           validateFunction: validatePassword,
                           textInputAction: TextInputAction.done,
+                          textEditingController: _passwordTextFieldController,
                         ),
-                        SubmitButton(formKey: _formKey),
+                        SubmitButton(
+                          formKey: _formKey,
+                          onPressed: loginUserOnSubmit,
+                        ),
                       ],
                     ),
                   ),
@@ -114,6 +152,7 @@ class CustomInputBox extends StatelessWidget {
   final Function validateFunction;
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
+  final TextEditingController? textEditingController;
 
   const CustomInputBox({
     Key? key,
@@ -123,6 +162,7 @@ class CustomInputBox extends StatelessWidget {
     required this.validateFunction,
     this.textInputAction,
     this.keyboardType,
+    this.textEditingController,
   }) : super(key: key);
 
   @override
@@ -142,6 +182,7 @@ class CustomInputBox extends StatelessWidget {
           TextFormField(
             decoration: textFormFieldDecorations(),
             validator: (value) => validateFunction(value),
+            controller: textEditingController,
             textInputAction: textInputAction ?? TextInputAction.done,
             keyboardType: keyboardType,
           ),
@@ -167,9 +208,12 @@ class CustomInputBox extends StatelessWidget {
 }
 
 class SubmitButton extends StatelessWidget {
+  final Function onPressed;
+
   const SubmitButton({
     Key? key,
     required GlobalKey<FormState> formKey,
+    required this.onPressed,
   })  : _formKey = formKey,
         super(key: key);
 
@@ -183,9 +227,7 @@ class SubmitButton extends StatelessWidget {
         onPressed: () {
           FocusManager.instance.primaryFocus?.unfocus();
           if (_formKey.currentState!.validate()) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Processing Data')),
-            );
+            onPressed();
           }
         },
         child: const Text(
