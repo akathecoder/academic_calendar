@@ -1,4 +1,6 @@
+import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/Screens/my_home_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -22,8 +24,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
       ),
-      home: const MyHomePage(title: 'Academic Calendar'),
+      home: const LoginPage(title: 'Academic Calendar'),
     );
   }
 }
