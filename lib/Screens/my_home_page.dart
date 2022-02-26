@@ -1,4 +1,5 @@
 import 'package:academic_calendar/Screens/login_page.dart';
+import 'package:academic_calendar/components/homepage_appbar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -42,26 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        elevation: 0,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.blue,
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              logoutUser().then((value) => {
-                    showSnackbar(
-                      context: context,
-                      text: "Logout Successful",
-                    ),
-                  });
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: "Logout",
-          )
-        ],
+      appBar: homePageAppBar(
+        context: context,
+        widget: widget,
       ),
       body: Center(
         child: Column(
