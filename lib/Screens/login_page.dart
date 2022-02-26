@@ -1,3 +1,5 @@
+import 'package:academic_calendar/components/login_page/custom_input_box.dart';
+import 'package:academic_calendar/components/login_page/submit_button.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/login_form_utilities.dart';
 import 'package:academic_calendar/utilities/snackbar.dart';
@@ -151,106 +153,6 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomInputBox extends StatelessWidget {
-  final IconData icon;
-  final String? hintText;
-  final String labelText;
-  final Function validateFunction;
-  final TextInputAction? textInputAction;
-  final TextInputType? keyboardType;
-  final TextEditingController? textEditingController;
-
-  const CustomInputBox({
-    Key? key,
-    required this.icon,
-    this.hintText,
-    required this.labelText,
-    required this.validateFunction,
-    this.textInputAction,
-    this.keyboardType,
-    this.textEditingController,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            labelText,
-            style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-            ),
-          ),
-          TextFormField(
-            decoration: textFormFieldDecorations(),
-            validator: (value) => validateFunction(value),
-            controller: textEditingController,
-            textInputAction: textInputAction ?? TextInputAction.done,
-            keyboardType: keyboardType,
-          ),
-        ],
-      ),
-    );
-  }
-
-  InputDecoration textFormFieldDecorations() {
-    return InputDecoration(
-      prefixIcon: Icon(
-        icon,
-      ),
-      prefixIconConstraints: const BoxConstraints(
-        maxHeight: 24,
-        maxWidth: 24,
-      ),
-      prefix: const SizedBox(
-        width: 8,
-      ),
-    );
-  }
-}
-
-class SubmitButton extends StatelessWidget {
-  final Function onPressed;
-
-  const SubmitButton({
-    Key? key,
-    required GlobalKey<FormState> formKey,
-    required this.onPressed,
-  })  : _formKey = formKey,
-        super(key: key);
-
-  final GlobalKey<FormState> _formKey;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: TextButton(
-        onPressed: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-          if (_formKey.currentState!.validate()) {
-            onPressed();
-          }
-        },
-        child: const Text(
-          'Submit',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        style: TextButton.styleFrom(
-          backgroundColor: Colors.blueAccent,
-          minimumSize: const Size.fromHeight(50),
         ),
       ),
     );
