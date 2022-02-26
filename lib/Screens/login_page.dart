@@ -1,5 +1,6 @@
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/login_form_utilities.dart';
+import 'package:academic_calendar/utilities/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,13 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordTextFieldController = TextEditingController();
 
   void loginUserOnSubmit() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Processing Data\nEmail: ${_emailTextFieldController.text}\nPassword: ${_passwordTextFieldController.text}',
-        ),
-      ),
-    );
+    showSnackbar(context,
+        'Processing Data\nEmail: ${_emailTextFieldController.text}\nPassword: ${_passwordTextFieldController.text}');
 
     loginUserWithEmailAndPassword(
             _emailTextFieldController.text, _passwordTextFieldController.text)
