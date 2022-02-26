@@ -3,8 +3,10 @@ import 'package:flutter/foundation.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 
-Future<User?> loginUserWithEmailAndPassword(
-    String email, String password) async {
+Future<User?> loginUserWithEmailAndPassword({
+  required String email,
+  required String password,
+}) async {
   try {
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithEmailAndPassword(

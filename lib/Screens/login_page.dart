@@ -29,17 +29,18 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     loginUserWithEmailAndPassword(
-            _emailTextFieldController.text, _passwordTextFieldController.text)
-        .then((value) => {
-              if (value != null)
-                Navigator.pop(context)
-              else
-                showSnackbar(
-                  context: context,
-                  text: "Invalid Username or Password!",
-                  backgroundColor: Colors.red,
-                )
-            });
+      email: _emailTextFieldController.text,
+      password: _passwordTextFieldController.text,
+    ).then((value) => {
+          if (value != null)
+            Navigator.pop(context)
+          else
+            showSnackbar(
+              context: context,
+              text: "Invalid Username or Password!",
+              backgroundColor: Colors.red,
+            )
+        });
   }
 
   @override
