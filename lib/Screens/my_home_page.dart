@@ -1,10 +1,8 @@
 import 'package:academic_calendar/Screens/login_page.dart';
-import 'package:academic_calendar/components/homepage_appbar.dart';
+import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
-import 'package:academic_calendar/utilities/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class MyHomePage extends StatefulWidget {
   static String id = "homePage";
