@@ -1,6 +1,7 @@
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/login_form_utilities.dart';
 import 'package:academic_calendar/utilities/snackbar.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,12 +20,26 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordTextFieldController = TextEditingController();
 
   void loginUserOnSubmit() {
-    showSnackbar(context,
-        'Processing Data\nEmail: ${_emailTextFieldController.text}\nPassword: ${_passwordTextFieldController.text}');
+    if (kDebugMode) {
+      showSnackbar(
+        context: context,
+        text:
+            'Processing Data\nEmail: ${_emailTextFieldController.text}\nPassword: ${_passwordTextFieldController.text}',
+      );
+    }
 
     loginUserWithEmailAndPassword(
             _emailTextFieldController.text, _passwordTextFieldController.text)
-        .then((value) => Navigator.pop(context));
+        .then((value) => {
+              if (value != null)
+                Navigator.pop(context)
+              else
+                showSnackbar(
+                  context: context,
+                  text: "Invalid Username or Password!",
+                  backgroundColor: Colors.red,
+                )
+            });
   }
 
   @override

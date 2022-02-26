@@ -52,7 +52,10 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             onPressed: () {
               logoutUser().then((value) => {
-                    showSnackbar(context, "Logout Successful"),
+                    showSnackbar(
+                      context: context,
+                      text: "Logout Successful",
+                    ),
                   });
             },
             icon: const Icon(Icons.logout),
