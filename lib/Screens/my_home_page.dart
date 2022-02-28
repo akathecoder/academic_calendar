@@ -1,8 +1,10 @@
 import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
+import 'package:academic_calendar/utilities/calendar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 
 class MyHomePage extends StatefulWidget {
   static String id = "homePage";
@@ -17,6 +19,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   User? loginedUser;
+  late List<NeatCleanCalendarEvent> _eventList;
 
   @override
   void initState() {
@@ -30,6 +33,10 @@ class _MyHomePageState extends State<MyHomePage> {
           Navigator.pushNamed(context, LoginPage.id)
       },
     );
+
+    setState(() {
+      _eventList = getEvents();
+    });
   }
 
   @override
@@ -45,21 +52,15 @@ class _MyHomePageState extends State<MyHomePage> {
         context: context,
         widget: widget,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (loginedUser != null)
-              Text(loginedUser.toString())
-            else
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, LoginPage.id);
-                },
-                child: const Text("Login"),
-              ),
-          ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: Calendar(
+            startOnMonday: false,
+            isExpandable: true,
+            eventsList: _eventList,
+            locale: "en_IN",
+          ),
         ),
       ),
     );
