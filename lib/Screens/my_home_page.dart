@@ -2,6 +2,7 @@ import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
 import 'package:academic_calendar/utilities/calendar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
+import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
@@ -57,7 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.only(top: 12.0),
           child: Calendar(
             startOnMonday: false,
-            isExpandable: true,
+            isExpandable: false,
+            isExpanded: true,
+            initialDate: DateTime.now(),
             eventsList: _eventList,
             locale: "en_IN",
           ),
