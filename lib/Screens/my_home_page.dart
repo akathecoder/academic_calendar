@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
 import 'package:academic_calendar/utilities/calendar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
-import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
@@ -20,7 +21,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   User? loginedUser;
-  late List<NeatCleanCalendarEvent> _eventList;
+  List<NeatCleanCalendarEvent> _eventList = [];
 
   @override
   void initState() {
@@ -35,9 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
 
-    setState(() {
-      _eventList = getEvents();
-    });
+    getEvents().then((events) => {
+          setState(() {
+            _eventList = events;
+          })
+        });
   }
 
   @override
@@ -47,6 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
         loginedUser = user;
       });
     });
+
+    getEvents().then((events) => {
+          setState(() {
+            _eventList = events;
+          })
+        });
 
     return Scaffold(
       appBar: homePageAppBar(

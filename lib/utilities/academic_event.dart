@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+DateTime parseTime(dynamic date) {
+  // return Platform.isIOS ? (date as Timestamp).toDate() : (date as DateTime);
+  return (date as Timestamp).toDate();
+}
 
 class AcademicEvent {
   AcademicEvent({
@@ -26,8 +34,8 @@ class AcademicEvent {
   AcademicEvent.fromJson(Map<String, Object?> json)
       : this(
           summary: json['summary']! as String,
-          startTime: json['startTime']! as DateTime,
-          endTime: json['endTime']! as DateTime,
+          startTime: parseTime(json['startTime']!),
+          endTime: parseTime(json['endTime']!),
           description: json['description']! as String,
           location: json['location']! as String,
           color: json['color']! as String,

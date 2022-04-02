@@ -4,23 +4,22 @@ import 'package:flutter/material.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+final eventsRef = firestore.collection('events').withConverter(
+      fromFirestore: (snapshot, _) => AcademicEvent.fromJson(snapshot.data()!),
+      toFirestore: (AcademicEvent academicEvent, _) => academicEvent.toJson(),
+    );
+
 Future<void> addEventToDatabase({
   required String summary,
   required DateTime startTime,
   required DateTime endTime,
   String description = '',
   String location = '',
-  String color = "MaterialColor(primary value: Color(0xff2196f3))",
+  String color = "ff2196f3",
   bool isAllDay = false,
   bool isMultiDay = false,
   bool isDone = false,
 }) async {
-  final eventsRef = firestore.collection('events').withConverter(
-        fromFirestore: (snapshot, _) =>
-            AcademicEvent.fromJson(snapshot.data()!),
-        toFirestore: (AcademicEvent academicEvent, _) => academicEvent.toJson(),
-      );
-
   await eventsRef.add(AcademicEvent(
     summary: summary,
     startTime: startTime,
@@ -33,6 +32,15 @@ Future<void> addEventToDatabase({
     isDone: isDone,
   ));
 }
+
+Future<List<QueryDocumentSnapshot<AcademicEvent>>>
+    getEventsFromDatabase() async {
+  return await eventsRef.get().then((snapshot) => snapshot.docs);
+}
+
+
+
+
 
 // NeatCleanCalendarEvent NeatCleanCalendarEvent(
 //   String summary, {
