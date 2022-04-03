@@ -1,33 +1,45 @@
 import 'package:academic_calendar/utilities/academic_event.dart';
-import 'package:academic_calendar/utilities/color.dart';
 import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 
-Future<List<NeatCleanCalendarEvent>> getEvents() async {
-  List<NeatCleanCalendarEvent> _eventList = [];
+Future<List<AcademicEvent>> getEvents() async {
+  List<AcademicEvent> _eventList = [];
 
   List<QueryDocumentSnapshot<AcademicEvent>> eventData =
       await getEventsFromDatabase();
 
   for (var eventDoc in eventData) {
-    AcademicEvent event = eventDoc.data();
-
-    _eventList.add(NeatCleanCalendarEvent(
-      event.summary,
-      startTime: event.startTime,
-      endTime: event.endTime,
-      description: event.description,
-      location: event.location,
-      color: HexColor(event.color),
-      isAllDay: event.isAllDay,
-      isDone: event.isDone,
-      isMultiDay: event.isMultiDay,
-    ));
+    _eventList.add(eventDoc.data());
   }
 
   return _eventList;
 }
+
+
+// Future<List<NeatCleanCalendarEvent>> getEvents() async {
+//   List<NeatCleanCalendarEvent> _eventList = [];
+
+//   List<QueryDocumentSnapshot<AcademicEvent>> eventData =
+//       await getEventsFromDatabase();
+
+//   for (var eventDoc in eventData) {
+//     AcademicEvent event = eventDoc.data();
+
+//     _eventList.add(NeatCleanCalendarEvent(
+//       event.summary,
+//       startTime: event.startTime,
+//       endTime: event.endTime,
+//       description: event.description,
+//       location: event.location,
+//       color: HexColor(event.color),
+//       isAllDay: event.isAllDay,
+//       isDone: event.isDone,
+//       isMultiDay: event.isMultiDay,
+//     ));
+//   }
+
+//   return _eventList;
+// }
 
 
 // List<NeatCleanCalendarEvent> getEvents() {

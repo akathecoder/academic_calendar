@@ -10,7 +10,7 @@ AppBar homePageAppBar({
 }) {
   return AppBar(
     title: Text(widget.title),
-    elevation: 8,
+    elevation: 0,
     systemOverlayStyle: const SystemUiOverlayStyle(
       statusBarColor: Colors.blue,
     ),

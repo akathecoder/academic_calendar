@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:academic_calendar/Screens/login_page.dart';
+import 'package:academic_calendar/components/home_page/custom_calendar.dart';
+import 'package:academic_calendar/components/home_page/custom_calendar_date_scrollbar.dart';
 import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
+import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/calendar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_neat_and_clean_calendar/flutter_neat_and_clean_calendar.dart';
 
 class MyHomePage extends StatefulWidget {
   static String id = "homePage";
@@ -21,7 +23,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   User? loginedUser;
-  List<NeatCleanCalendarEvent> _eventList = [];
+  List<AcademicEvent> _eventsList = [];
+  late DateTime _selectedDate;
 
   @override
   void initState() {
@@ -36,11 +39,16 @@ class _MyHomePageState extends State<MyHomePage> {
       },
     );
 
-    getEvents().then((events) => {
-          setState(() {
-            _eventList = events;
-          })
-        });
+    _selectedDate = DateTime.now();
+
+    getEvents().then((value) => _eventsList = value);
+  }
+
+  void handleDateChange(DateTime date) {
+    setState(() {
+      _selectedDate = date;
+    });
+    // TODO: Update Events Data
   }
 
   @override
@@ -51,12 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     });
 
-    getEvents().then((events) => {
-          setState(() {
-            _eventList = events;
-          })
-        });
-
     return Scaffold(
       appBar: homePageAppBar(
         context: context,
@@ -64,14 +66,16 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 12.0),
-          child: Calendar(
-            startOnMonday: false,
-            isExpandable: false,
-            isExpanded: true,
-            initialDate: DateTime.now(),
-            eventsList: _eventList,
-            locale: "en_IN",
+          padding: const EdgeInsets.only(top: 0),
+          child: Column(
+            children: [
+              CustomCalendarDateScrollbar(
+                onDateChanged: handleDateChange,
+                selectedDate: _selectedDate,
+              ),
+              CustomCalendar(eventsList: _eventsList),
+              Text(_selectedDate.toString()),
+            ],
           ),
         ),
       ),
