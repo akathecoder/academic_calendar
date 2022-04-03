@@ -34,42 +34,65 @@ class _CreateEventPageState extends State<CreateEventPage> {
       appBar: createEventAppBar(),
       body: SafeArea(
         child: SafeArea(
-          child: Column(
-            children: [
-              ImagePickerCard(image: image, onImageUpdate: updateImage),
-              const SizedBox(height: 20),
-              customTextField(
-                label: "Event Name",
-                hintText: 'Enter event name',
-                onValueChange: (value) {
-                  setState(() {
-                    newEvent.summary = value;
-                  });
-                },
-              ),
-              customDateField(
-                label: "Start Date",
-                hintText: 'Enter Start date',
-                date: newEvent.startTime,
-                firstDate: DateTime.now(),
-                onValueChange: (value) {
-                  setState(() {
-                    newEvent.startTime = value;
-                  });
-                },
-              ),
-              customDateField(
-                label: "End Date",
-                hintText: 'Enter End date',
-                date: newEvent.endTime,
-                firstDate: newEvent.endTime,
-                onValueChange: (value) {
-                  setState(() {
-                    newEvent.endTime = value;
-                  });
-                },
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                ImagePickerCard(image: image, onImageUpdate: updateImage),
+                const SizedBox(height: 20),
+                customTextField(
+                  label: "Event Name",
+                  hintText: 'Enter event name',
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.summary = value;
+                    });
+                  },
+                ),
+                customDateField(
+                  label: "Start Date",
+                  hintText: 'Enter Start date',
+                  date: newEvent.startTime,
+                  firstDate: DateTime.now(),
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.startTime = value;
+                    });
+                  },
+                ),
+                customDateField(
+                  label: "End Date",
+                  hintText: 'Enter End date',
+                  date: newEvent.endTime,
+                  firstDate: newEvent.endTime,
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.endTime = value;
+                    });
+                  },
+                ),
+                customTextField(
+                  label: "Description",
+                  hintText: 'Enter event details',
+                  minLines: 6,
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.description = value;
+                    });
+                  },
+                ),
+                customTextField(
+                  label: "Location",
+                  hintText: 'Enter event location',
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.location = value;
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -83,12 +106,14 @@ class _CreateEventPageState extends State<CreateEventPage> {
     );
   }
 
-  Widget customTextField({
-    required String label,
-    required void Function(String value) onValueChange,
-    String? hintText,
-    bool readOnly = false,
-  }) {
+  Widget customTextField(
+      {required String label,
+      required void Function(String value) onValueChange,
+      String? hintText,
+      bool readOnly = false,
+      int? maxLines,
+      int minLines = 1,
+      TextInputType keyboardType = TextInputType.text}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
       child: Column(
@@ -107,10 +132,16 @@ class _CreateEventPageState extends State<CreateEventPage> {
               onValueChange(value);
             },
             decoration: InputDecoration(
+              border: const OutlineInputBorder(
+                borderRadius: BorderRadius.zero,
+              ),
               hintText: hintText,
               isDense: true,
             ),
             readOnly: readOnly,
+            maxLines: maxLines,
+            minLines: minLines,
+            keyboardType: keyboardType,
           ),
         ],
       ),
@@ -150,8 +181,26 @@ class _CreateEventPageState extends State<CreateEventPage> {
               onValueChange(newDate);
             },
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(date.toString()),
+              width: double.infinity,
+              height: 51.0,
+              padding: const EdgeInsets.all(12.0),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    date.toString(),
+                    style: const TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
