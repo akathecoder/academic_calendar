@@ -1,3 +1,4 @@
+import 'package:academic_calendar/Screens/create_event_page.dart';
 import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/Screens/my_home_page.dart';
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         MyHomePage.id: (context) =>
             const MyHomePage(title: "Academic Calendar"),
         LoginPage.id: (context) => const LoginPage(),
+        CreateEventPage.id: (context) => CreateEventPage(),
       },
       initialRoute: MyHomePage.id,
     );

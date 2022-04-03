@@ -13,6 +13,7 @@ class AcademicEvent {
     required this.summary,
     required this.startTime,
     required this.endTime,
+    this.image = '',
     this.description = '',
     this.location = '',
     this.color = 'a',
@@ -21,21 +22,23 @@ class AcademicEvent {
     this.isDone = false,
   });
 
-  final String summary;
-  final DateTime startTime;
-  final DateTime endTime;
-  final String description;
-  final String location;
-  final String color;
-  final bool isAllDay;
-  final bool isMultiDay;
-  final bool isDone;
+  String image;
+  String summary;
+  DateTime startTime;
+  DateTime endTime;
+  String description;
+  String location;
+  String color;
+  bool isAllDay;
+  bool isMultiDay;
+  bool isDone;
 
   AcademicEvent.fromJson(Map<String, Object?> json)
       : this(
           summary: json['summary']! as String,
           startTime: parseTime(json['startTime']!),
           endTime: parseTime(json['endTime']!),
+          image: json['image']! as String,
           description: json['description']! as String,
           location: json['location']! as String,
           color: json['color']! as String,
@@ -49,6 +52,7 @@ class AcademicEvent {
       'summary': summary,
       'startTime': startTime,
       'endTime': endTime,
+      'image': image,
       'description': description,
       'location': location,
       'color': color,

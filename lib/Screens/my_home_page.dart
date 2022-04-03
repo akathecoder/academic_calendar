@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:academic_calendar/Screens/create_event_page.dart';
 import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/components/home_page/custom_calendar.dart';
 import 'package:academic_calendar/components/home_page/custom_calendar_date_scrollbar.dart';
@@ -82,6 +83,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, CreateEventPage.id);
+        },
+        backgroundColor: Colors.blue,
+        child: const Icon(Icons.add),
       ),
     );
   }
