@@ -33,9 +33,16 @@ Future<void> addEventToDatabase({
   ));
 }
 
-Future<List<QueryDocumentSnapshot<AcademicEvent>>>
-    getEventsFromDatabase() async {
-  return await eventsRef.get().then((snapshot) => snapshot.docs);
+Future<List<QueryDocumentSnapshot<AcademicEvent>>> getEventsFromDatabase(
+    DateTime date) async {
+  return await eventsRef
+      .where(
+        'startTime',
+        isLessThanOrEqualTo:
+            DateTime(date.year, date.month, date.day + 1, 0, 0, 0, 0, 0),
+      )
+      .get()
+      .then((snapshot) => snapshot.docs);
 }
 
 

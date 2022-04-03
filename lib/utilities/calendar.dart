@@ -2,15 +2,20 @@ import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-Future<List<AcademicEvent>> getEvents() async {
+Future<List<AcademicEvent>> getEvents(DateTime date) async {
   List<AcademicEvent> _eventList = [];
 
   List<QueryDocumentSnapshot<AcademicEvent>> eventData =
-      await getEventsFromDatabase();
+      await getEventsFromDatabase(date);
 
   for (var eventDoc in eventData) {
     _eventList.add(eventDoc.data());
   }
+
+  _eventList = _eventList
+      .where((event) => event.endTime
+          .isAfter(DateTime(date.year, date.month, date.day, 0, 0, 0, 0, 0)))
+      .toList();
 
   return _eventList;
 }

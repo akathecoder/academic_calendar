@@ -17,7 +17,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
       children: [
         for (var event in widget.eventsList)
           Text(
-            event.startTime.toString(),
+            event.startTime.toString() + " - " + event.endTime.toString(),
           ),
       ],
     );

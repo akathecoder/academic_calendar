@@ -7,6 +7,7 @@ import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/calendar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
+import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -41,14 +42,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
     _selectedDate = DateTime.now();
 
-    getEvents().then((value) => _eventsList = value);
+    getEvents(_selectedDate).then((value) => _eventsList = value);
   }
 
-  void handleDateChange(DateTime date) {
+  Future<void> handleDateChange(DateTime date) async {
+    List<AcademicEvent> newEvents = await getEvents(date);
+
     setState(() {
       _selectedDate = date;
+      _eventsList = newEvents;
     });
-    // TODO: Update Events Data
   }
 
   @override
@@ -74,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 selectedDate: _selectedDate,
               ),
               CustomCalendar(eventsList: _eventsList),
+              Spacer(),
               Text(_selectedDate.toString()),
             ],
           ),
