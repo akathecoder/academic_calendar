@@ -1,8 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:academic_calendar/components/create_event/create_event_appbar.dart';
 import 'package:academic_calendar/components/create_event/image_picker_card.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
+import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CreateEventPage extends StatefulWidget {
@@ -26,6 +28,32 @@ class _CreateEventPageState extends State<CreateEventPage> {
     setState(() {
       image = newImage;
     });
+  }
+
+  void handleSubmit() {
+    log(
+      "Submit Button Clicked",
+      name: "Submit",
+      error: newEvent.toJson().toString(),
+    );
+
+    addEventToDatabase(
+      summary: newEvent.summary,
+      startTime: newEvent.startTime,
+      endTime: newEvent.endTime,
+      description: newEvent.description,
+      location: newEvent.location,
+      isAllDay: newEvent.isAllDay,
+      isDone: newEvent.isDone,
+      isMultiDay: newEvent.isMultiDay,
+    ).then((value) => Navigator.pop(context));
+  }
+
+  bool validateForm() {
+    if (newEvent.summary.isNotEmpty) {
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -91,17 +119,47 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     });
                   },
                 ),
+                customCheckboxField(
+                  label: "All day Event",
+                  value: newEvent.isAllDay,
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.isAllDay = value;
+                    });
+                  },
+                ),
+                customCheckboxField(
+                  label: "Multi day Event",
+                  value: newEvent.isMultiDay,
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.isMultiDay = value;
+                    });
+                  },
+                ),
+                customCheckboxField(
+                  label: "Holiday",
+                  value: newEvent.isDone,
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.isDone = value;
+                    });
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 14.0),
+                  child: ElevatedButton(
+                      onPressed: validateForm() ? handleSubmit : null,
+                      child: const Text('Submit'),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size.fromHeight(40),
+                      )),
+                ),
               ],
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, CreateEventPage.id);
-        },
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
       ),
     );
   }
@@ -201,6 +259,45 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   ),
                 ],
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget customCheckboxField({
+    required String label,
+    required void Function(bool value) onValueChange,
+    required bool value,
+    String? hintText,
+    bool readOnly = true,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Checkbox(
+            checkColor: Colors.white,
+            fillColor:
+                MaterialStateProperty.resolveWith((states) => Colors.blue),
+            value: value,
+            onChanged: (bool? v) {
+              if (v != null) {
+                setState(() {
+                  onValueChange(v);
+                });
+              }
+            },
+          ),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey.shade700,
             ),
           ),
         ],
