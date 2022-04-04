@@ -25,3 +25,17 @@ Future<String> uploadImage(File? image) async {
 
   return downloadUrl;
 }
+
+Future<String> getImage(String path) async {
+  String imageUrl = "";
+
+  try {
+    if (path.isNotEmpty) {
+      imageUrl = await storageRef.child(path).getDownloadURL();
+    }
+  } on FirebaseException catch (e) {
+    log("Firebase Storage Error", error: e);
+  }
+
+  return imageUrl;
+}

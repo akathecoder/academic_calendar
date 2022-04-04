@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:academic_calendar/Screens/create_event_page.dart';
 import 'package:academic_calendar/Screens/login_page.dart';
-import 'package:academic_calendar/components/home_page/custom_calendar.dart';
+import 'package:academic_calendar/components/home_page/event_card_list.dart';
 import 'package:academic_calendar/components/home_page/custom_calendar_date_scrollbar.dart';
 import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
@@ -77,9 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 onDateChanged: handleDateChange,
                 selectedDate: _selectedDate,
               ),
-              CustomCalendar(eventsList: _eventsList),
-              Spacer(),
-              Text(_selectedDate.toString()),
+              EventCardList(eventsList: _eventsList),
+              // Spacer(),
+              // Text(_selectedDate.toString()),
             ],
           ),
         ),
