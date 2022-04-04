@@ -1,6 +1,5 @@
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -13,12 +12,12 @@ Future<void> addEventToDatabase({
   required String summary,
   required DateTime startTime,
   required DateTime endTime,
+  String image = '',
   String description = '',
   String location = '',
   String color = "ff2196f3",
-  bool isAllDay = false,
-  bool isMultiDay = false,
-  bool isDone = false,
+  bool isHoliday = false,
+  bool isExam = false,
 }) async {
   await eventsRef.add(AcademicEvent(
     summary: summary,
@@ -27,9 +26,9 @@ Future<void> addEventToDatabase({
     description: description,
     location: location,
     color: color,
-    isAllDay: isAllDay,
-    isMultiDay: isMultiDay,
-    isDone: isDone,
+    isHoliday: isHoliday,
+    isExam: isExam,
+    image: image,
   ));
 }
 

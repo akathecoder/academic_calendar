@@ -43,9 +43,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
       endTime: newEvent.endTime,
       description: newEvent.description,
       location: newEvent.location,
-      isAllDay: newEvent.isAllDay,
-      isDone: newEvent.isDone,
-      isMultiDay: newEvent.isMultiDay,
+      isHoliday: newEvent.isHoliday,
+      isExam: newEvent.isExam,
+      image: newEvent.image,
     ).then((value) => Navigator.pop(context));
   }
 
@@ -120,29 +120,20 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   },
                 ),
                 customCheckboxField(
-                  label: "All day Event",
-                  value: newEvent.isAllDay,
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.isAllDay = value;
-                    });
-                  },
-                ),
-                customCheckboxField(
-                  label: "Multi day Event",
-                  value: newEvent.isMultiDay,
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.isMultiDay = value;
-                    });
-                  },
-                ),
-                customCheckboxField(
                   label: "Holiday",
-                  value: newEvent.isDone,
+                  value: newEvent.isHoliday,
                   onValueChange: (value) {
                     setState(() {
-                      newEvent.isDone = value;
+                      newEvent.isHoliday = value;
+                    });
+                  },
+                ),
+                customCheckboxField(
+                  label: "Exam",
+                  value: newEvent.isExam,
+                  onValueChange: (value) {
+                    setState(() {
+                      newEvent.isExam = value;
                     });
                   },
                 ),

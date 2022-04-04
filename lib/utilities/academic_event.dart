@@ -14,9 +14,8 @@ class AcademicEvent {
     this.description = '',
     this.location = '',
     this.color = 'a',
-    this.isAllDay = false,
-    this.isMultiDay = false,
-    this.isDone = false,
+    this.isHoliday = false,
+    this.isExam = false,
   });
 
   String image;
@@ -26,9 +25,8 @@ class AcademicEvent {
   String description;
   String location;
   String color;
-  bool isAllDay;
-  bool isMultiDay;
-  bool isDone;
+  bool isHoliday;
+  bool isExam;
 
   AcademicEvent.fromJson(Map<String, Object?> json)
       : this(
@@ -39,9 +37,8 @@ class AcademicEvent {
           description: json['description']! as String,
           location: json['location']! as String,
           color: json['color']! as String,
-          isAllDay: json['isAllDay']! as bool,
-          isMultiDay: json['isMultiDay']! as bool,
-          isDone: json['isDone']! as bool,
+          isHoliday: json['isHoliday']! as bool,
+          isExam: json['isExam']! as bool,
         );
 
   Map<String, Object?> toJson() {
@@ -53,9 +50,8 @@ class AcademicEvent {
       'description': description,
       'location': location,
       'color': color,
-      'isAllDay': isAllDay,
-      'isMultiDay': isMultiDay,
-      'isDone': isDone,
+      'isHoliday': isHoliday,
+      'isExam': isExam,
     };
   }
 }
