@@ -5,7 +5,9 @@ import 'package:academic_calendar/components/create_event/create_event_appbar.da
 import 'package:academic_calendar/components/create_event/image_picker_card.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/firebase_firestore.dart';
+import 'package:academic_calendar/utilities/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class CreateEventPage extends StatefulWidget {
   static String id = "createEventPage";
@@ -30,14 +32,12 @@ class _CreateEventPageState extends State<CreateEventPage> {
     });
   }
 
-  void handleSubmit() {
-    log(
-      "Submit Button Clicked",
-      name: "Submit",
-      error: newEvent.toJson().toString(),
-    );
+  void handleSubmit(BuildContext context) async {
+    context.loaderOverlay.show();
 
-    addEventToDatabase(
+    newEvent.image = await uploadImage(image);
+
+    await addEventToDatabase(
       summary: newEvent.summary,
       startTime: newEvent.startTime,
       endTime: newEvent.endTime,
@@ -46,7 +46,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
       isHoliday: newEvent.isHoliday,
       isExam: newEvent.isExam,
       image: newEvent.image,
-    ).then((value) => Navigator.pop(context));
+    );
+
+    Navigator.pop(context);
   }
 
   bool validateForm() {
@@ -58,96 +60,99 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: createEventAppBar(),
-      body: SafeArea(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ImagePickerCard(image: image, onImageUpdate: updateImage),
-                const SizedBox(height: 20),
-                customTextField(
-                  label: "Event Name",
-                  hintText: 'Enter event name',
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.summary = value;
-                    });
-                  },
-                ),
-                customDateField(
-                  label: "Start Date",
-                  hintText: 'Enter Start date',
-                  date: newEvent.startTime,
-                  firstDate: DateTime.now(),
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.startTime = value;
-                    });
-                  },
-                ),
-                customDateField(
-                  label: "End Date",
-                  hintText: 'Enter End date',
-                  date: newEvent.endTime,
-                  firstDate: newEvent.endTime,
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.endTime = value;
-                    });
-                  },
-                ),
-                customTextField(
-                  label: "Description",
-                  hintText: 'Enter event details',
-                  minLines: 6,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.description = value;
-                    });
-                  },
-                ),
-                customTextField(
-                  label: "Location",
-                  hintText: 'Enter event location',
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.location = value;
-                    });
-                  },
-                ),
-                customCheckboxField(
-                  label: "Holiday",
-                  value: newEvent.isHoliday,
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.isHoliday = value;
-                    });
-                  },
-                ),
-                customCheckboxField(
-                  label: "Exam",
-                  value: newEvent.isExam,
-                  onValueChange: (value) {
-                    setState(() {
-                      newEvent.isExam = value;
-                    });
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 14.0),
-                  child: ElevatedButton(
-                      onPressed: validateForm() ? handleSubmit : null,
-                      child: const Text('Submit'),
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(40),
-                      )),
-                ),
-              ],
+    return LoaderOverlay(
+      child: Scaffold(
+        appBar: createEventAppBar(),
+        body: SafeArea(
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ImagePickerCard(image: image, onImageUpdate: updateImage),
+                  const SizedBox(height: 20),
+                  customTextField(
+                    label: "Event Name",
+                    hintText: 'Enter event name',
+                    onValueChange: (value) {
+                      setState(() {
+                        newEvent.summary = value;
+                      });
+                    },
+                  ),
+                  customDateField(
+                    label: "Start Date",
+                    hintText: 'Enter Start date',
+                    date: newEvent.startTime,
+                    firstDate: DateTime.now(),
+                    onValueChange: (value) {
+                      setState(() {
+                        newEvent.startTime = value;
+                      });
+                    },
+                  ),
+                  customDateField(
+                    label: "End Date",
+                    hintText: 'Enter End date',
+                    date: newEvent.endTime,
+                    firstDate: newEvent.endTime,
+                    onValueChange: (value) {
+                      setState(() {
+                        newEvent.endTime = value;
+                      });
+                    },
+                  ),
+                  customTextField(
+                    label: "Description",
+                    hintText: 'Enter event details',
+                    minLines: 6,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    onValueChange: (value) {
+                      setState(() {
+                        newEvent.description = value;
+                      });
+                    },
+                  ),
+                  customTextField(
+                    label: "Location",
+                    hintText: 'Enter event location',
+                    onValueChange: (value) {
+                      setState(() {
+                        newEvent.location = value;
+                      });
+                    },
+                  ),
+                  customCheckboxField(
+                    label: "Holiday",
+                    value: newEvent.isHoliday,
+                    onValueChange: (value) {
+                      setState(() {
+                        newEvent.isHoliday = value;
+                      });
+                    },
+                  ),
+                  customCheckboxField(
+                    label: "Exam",
+                    value: newEvent.isExam,
+                    onValueChange: (value) {
+                      setState(() {
+                        newEvent.isExam = value;
+                      });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 14.0),
+                    child: ElevatedButton(
+                        onPressed:
+                            validateForm() ? () => handleSubmit(context) : null,
+                        child: const Text('Submit'),
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size.fromHeight(40),
+                        )),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
