@@ -59,9 +59,12 @@ class _EventCardState extends State<EventCard> {
               width: double.infinity,
               color: Colors.grey.shade300,
               child: image.isNotEmpty
-                  ? Image.network(
-                      image,
-                      fit: BoxFit.cover,
+                  ? Hero(
+                      tag: image,
+                      child: Image.network(
+                        image,
+                        fit: BoxFit.cover,
+                      ),
                     )
                   : const Center(
                       child: Icon(Icons.image_not_supported),
