@@ -30,8 +30,6 @@ class _ImagePickerCardState extends State<ImagePickerCard> {
 
       widget.onImageUpdate(widget.image);
     }
-
-    log("image", name: "image", error: widget.image);
   }
 
   @override
@@ -49,8 +47,6 @@ class _ImagePickerCardState extends State<ImagePickerCard> {
   }
 
   Widget getContent() {
-    log("image path", name: "image", error: imagePath);
-
     if (widget.image != null) {
       return Image.file(
         widget.image!,
