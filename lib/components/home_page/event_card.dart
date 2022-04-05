@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:academic_calendar/Screens/event_page.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatefulWidget {
-  EventCard({Key? key, required this.event}) : super(key: key);
+  const EventCard({Key? key, required this.event}) : super(key: key);
 
   final AcademicEvent event;
 

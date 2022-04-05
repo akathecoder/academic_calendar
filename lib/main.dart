@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
         MyHomePage.id: (context) =>
             const MyHomePage(title: "Academic Calendar"),
         LoginPage.id: (context) => const LoginPage(),
-        CreateEventPage.id: (context) => CreateEventPage(),
-        EventPage.id: (context) => EventPage(),
+        CreateEventPage.id: (context) => const CreateEventPage(),
+        EventPage.id: (context) => const EventPage(),
       },
       initialRoute: MyHomePage.id,
     );

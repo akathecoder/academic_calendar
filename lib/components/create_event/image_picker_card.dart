@@ -1,9 +1,8 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class ImagePickerCard extends StatefulWidget {
   ImagePickerCard({Key? key, this.image, required this.onImageUpdate})
       : super(key: key);

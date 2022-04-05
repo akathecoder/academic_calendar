@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:academic_calendar/components/home_page/scrollbar_date_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class CustomCalendarDateScrollableScrollbar extends StatefulWidget {
-  CustomCalendarDateScrollableScrollbar({
+  const CustomCalendarDateScrollableScrollbar({
     Key? key,
     required this.onDateChanged,
     required this.selectedDate,

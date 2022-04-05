@@ -2,7 +2,7 @@ import 'package:academic_calendar/components/home_page/scrollbar_date_widget.dar
 import 'package:flutter/material.dart';
 
 class CustomCalendarDateScrollbar extends StatefulWidget {
-  CustomCalendarDateScrollbar({
+  const CustomCalendarDateScrollbar({
     Key? key,
     required this.onDateChanged,
     required this.selectedDate,

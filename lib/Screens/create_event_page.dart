@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:academic_calendar/components/create_event/create_event_appbar.dart';
 import 'package:academic_calendar/components/create_event/image_picker_card.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
@@ -12,7 +10,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 class CreateEventPage extends StatefulWidget {
   static String id = "createEventPage";
 
-  CreateEventPage({Key? key}) : super(key: key);
+  const CreateEventPage({Key? key}) : super(key: key);
 
   @override
   State<CreateEventPage> createState() => _CreateEventPageState();

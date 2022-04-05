@@ -3,7 +3,7 @@ import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:flutter/material.dart';
 
 class EventCardList extends StatefulWidget {
-  EventCardList({Key? key, required this.eventsList}) : super(key: key);
+  const EventCardList({Key? key, required this.eventsList}) : super(key: key);
 
   final List<AcademicEvent> eventsList;
 

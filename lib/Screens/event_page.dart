@@ -2,7 +2,6 @@ import 'package:academic_calendar/components/event/event_appbar.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class EventPageArguments {
   final AcademicEvent event;
@@ -13,7 +12,7 @@ class EventPageArguments {
 class EventPage extends StatefulWidget {
   static String id = "eventPage";
 
-  EventPage({Key? key}) : super(key: key);
+  const EventPage({Key? key}) : super(key: key);
 
   @override
   State<EventPage> createState() => _EventPageState();
