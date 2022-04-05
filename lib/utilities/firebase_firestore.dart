@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
@@ -54,4 +52,8 @@ Future<List<QueryDocumentSnapshot<AcademicEvent>>> getEventsFromDatabase(
       )
       .get()
       .then((snapshot) => snapshot.docs);
+}
+
+Future<void> deleteEventFromDatabase(AcademicEvent event) async {
+  await eventsRef.doc(event.id).delete();
 }

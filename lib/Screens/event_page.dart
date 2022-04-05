@@ -57,7 +57,7 @@ class _EventPageState extends State<EventPage> {
     downloadImage(args.event.image);
 
     return Scaffold(
-      appBar: eventAppBar(args.event.summary),
+      appBar: eventAppBar(context, args.event),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 0),
