@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -12,6 +15,7 @@ Future<void> addEventToDatabase({
   required String summary,
   required DateTime startTime,
   required DateTime endTime,
+  required String owner,
   String image = '',
   String description = '',
   String location = '',
@@ -19,17 +23,25 @@ Future<void> addEventToDatabase({
   bool isHoliday = false,
   bool isExam = false,
 }) async {
-  await eventsRef.add(AcademicEvent(
-    summary: summary,
-    startTime: startTime,
-    endTime: endTime,
-    description: description,
-    location: location,
-    color: color,
-    isHoliday: isHoliday,
-    isExam: isExam,
-    image: image,
-  ));
+  Uuid uuid = const Uuid();
+
+  String id = uuid.v4();
+
+  await eventsRef.doc(id).set(
+        AcademicEvent(
+          id: id,
+          owner: owner,
+          summary: summary,
+          startTime: startTime,
+          endTime: endTime,
+          description: description,
+          location: location,
+          color: color,
+          isHoliday: isHoliday,
+          isExam: isExam,
+          image: image,
+        ),
+      );
 }
 
 Future<List<QueryDocumentSnapshot<AcademicEvent>>> getEventsFromDatabase(
@@ -43,20 +55,3 @@ Future<List<QueryDocumentSnapshot<AcademicEvent>>> getEventsFromDatabase(
       .get()
       .then((snapshot) => snapshot.docs);
 }
-
-
-
-
-
-// NeatCleanCalendarEvent NeatCleanCalendarEvent(
-//   String summary, {
-//   String description = '',
-//   String location = '',
-//   required DateTime startTime,
-//   required DateTime endTime,
-//   Color? color = Colors.blue,
-//   bool isAllDay = false,
-//   bool isMultiDay = false,
-//   bool isDone = false,
-//   dynamic multiDaySegement,
-// })

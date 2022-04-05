@@ -10,14 +10,18 @@ class AcademicEvent {
     required this.summary,
     required this.startTime,
     required this.endTime,
+    required this.owner,
     this.image = '',
     this.description = '',
     this.location = '',
     this.color = 'a',
     this.isHoliday = false,
     this.isExam = false,
+    this.id,
   });
 
+  String? id;
+  String owner;
   String image;
   String summary;
   DateTime startTime;
@@ -39,6 +43,8 @@ class AcademicEvent {
           color: json['color']! as String,
           isHoliday: json['isHoliday']! as bool,
           isExam: json['isExam']! as bool,
+          owner: json['owner'] as String,
+          id: json['id'] as String?,
         );
 
   Map<String, Object?> toJson() {
@@ -52,6 +58,8 @@ class AcademicEvent {
       'color': color,
       'isHoliday': isHoliday,
       'isExam': isExam,
+      'owner': owner,
+      'id': id,
     };
   }
 }

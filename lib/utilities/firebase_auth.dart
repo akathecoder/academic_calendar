@@ -42,3 +42,7 @@ Future<User?> getLoginedUser() async {
 Future<void> logoutUser() async {
   await FirebaseAuth.instance.signOut();
 }
+
+String getLoggedInUserId() {
+  return FirebaseAuth.instance.currentUser?.uid ?? "";
+}

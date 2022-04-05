@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:academic_calendar/components/create_event/create_event_appbar.dart';
 import 'package:academic_calendar/components/create_event/image_picker_card.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
+import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:academic_calendar/utilities/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
     summary: "",
     startTime: DateTime.now(),
     endTime: DateTime.now().add(const Duration(hours: 10)),
+    owner: getLoggedInUserId(),
   );
 
   void updateImage(File? newImage) {
@@ -39,6 +41,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
       summary: newEvent.summary,
       startTime: newEvent.startTime,
       endTime: newEvent.endTime,
+      owner: newEvent.owner,
       description: newEvent.description,
       location: newEvent.location,
       isHoliday: newEvent.isHoliday,
