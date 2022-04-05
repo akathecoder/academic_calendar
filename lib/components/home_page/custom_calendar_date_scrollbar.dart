@@ -53,10 +53,20 @@ class _CustomCalendarDateScrollbarState
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Icon(
-            Icons.keyboard_arrow_left,
-            color: Colors.white,
-            size: 32.0,
+          InkWell(
+            onTap: () {
+              handleDateClicked(
+                datesListToShow[0].subtract(const Duration(hours: 24)),
+              );
+              setState(() {
+                datesListToShow = getDatesInWeek(widget.selectedDate);
+              });
+            },
+            child: const Icon(
+              Icons.keyboard_arrow_left,
+              color: Colors.white,
+              size: 32.0,
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -75,10 +85,20 @@ class _CustomCalendarDateScrollbarState
               ),
             ),
           ),
-          const Icon(
-            Icons.keyboard_arrow_right,
-            color: Colors.white,
-            size: 32.0,
+          InkWell(
+            onTap: () {
+              handleDateClicked(
+                datesListToShow[6].add(const Duration(hours: 24)),
+              );
+              setState(() {
+                datesListToShow = getDatesInWeek(widget.selectedDate);
+              });
+            },
+            child: const Icon(
+              Icons.keyboard_arrow_right,
+              color: Colors.white,
+              size: 32.0,
+            ),
           ),
         ],
       ),

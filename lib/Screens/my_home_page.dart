@@ -2,13 +2,13 @@ import 'dart:developer';
 
 import 'package:academic_calendar/Screens/create_event_page.dart';
 import 'package:academic_calendar/Screens/login_page.dart';
+import 'package:academic_calendar/components/home_page/custom_calendar_date_scrollable_scrollbar.dart';
 import 'package:academic_calendar/components/home_page/event_card_list.dart';
 import 'package:academic_calendar/components/home_page/custom_calendar_date_scrollbar.dart';
 import 'package:academic_calendar/components/home_page/homepage_appbar.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/calendar.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
-import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.only(top: 0),
           child: Column(
             children: [
-              CustomCalendarDateScrollbar(
+              CustomCalendarDateScrollableScrollbar(
                 onDateChanged: handleDateChange,
                 selectedDate: _selectedDate,
               ),
