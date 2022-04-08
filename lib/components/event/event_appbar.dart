@@ -13,7 +13,7 @@ AppBar eventAppBar(BuildContext context, AcademicEvent event) {
         tooltip: "Edit Event",
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
@@ -59,13 +59,12 @@ AppBar eventAppBar(BuildContext context, AcademicEvent event) {
       return IconButton(
         onPressed: () {
           handleClick();
-          // deleteEventFromDatabase(event);
         },
         icon: const Icon(Icons.delete),
         tooltip: "Edit Event",
       );
     } else {
-      return SizedBox();
+      return const SizedBox();
     }
   }
 
