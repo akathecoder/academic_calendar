@@ -42,6 +42,40 @@ Future<void> addEventToDatabase({
       );
 }
 
+Future<void> updateEventToDatabase(
+  String? id, {
+  required String summary,
+  required DateTime startTime,
+  required DateTime endTime,
+  required String owner,
+  String image = '',
+  String description = '',
+  String location = '',
+  String color = "ff2196f3",
+  bool isHoliday = false,
+  bool isExam = false,
+}) async {
+  Uuid uuid = const Uuid();
+
+  id = id ?? uuid.v4();
+
+  await eventsRef.doc(id).set(
+        AcademicEvent(
+          id: id,
+          owner: owner,
+          summary: summary,
+          startTime: startTime,
+          endTime: endTime,
+          description: description,
+          location: location,
+          color: color,
+          isHoliday: isHoliday,
+          isExam: isExam,
+          image: image,
+        ),
+      );
+}
+
 Future<List<QueryDocumentSnapshot<AcademicEvent>>> getEventsFromDatabase(
     DateTime date) async {
   return await eventsRef

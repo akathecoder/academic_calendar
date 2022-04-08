@@ -1,3 +1,5 @@
+import 'package:academic_calendar/Screens/create_event_page.dart';
+import 'package:academic_calendar/Screens/edit_event_page.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/firebase_firestore.dart';
@@ -8,7 +10,10 @@ AppBar eventAppBar(BuildContext context, AcademicEvent event) {
   Widget getEditButton() {
     if (getLoggedInUserId() == event.owner) {
       return IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, EditEventPage.id,
+              arguments: EditEventPageArguments(event));
+        },
         icon: const Icon(Icons.edit),
         tooltip: "Edit Event",
       );

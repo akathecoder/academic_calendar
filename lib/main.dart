@@ -1,8 +1,8 @@
 import 'package:academic_calendar/Screens/create_event_page.dart';
+import 'package:academic_calendar/Screens/edit_event_page.dart';
 import 'package:academic_calendar/Screens/event_page.dart';
 import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/Screens/my_home_page.dart';
-
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
         LoginPage.id: (context) => const LoginPage(),
         CreateEventPage.id: (context) => const CreateEventPage(),
         EventPage.id: (context) => const EventPage(),
+        EditEventPage.id: (context) => const EditEventPage(),
       },
       initialRoute: MyHomePage.id,
     );

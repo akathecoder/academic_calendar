@@ -1,36 +1,27 @@
 import 'dart:io';
+import 'package:academic_calendar/Screens/create_event_page.dart';
 import 'package:academic_calendar/components/create_event/create_event_appbar.dart';
 import 'package:academic_calendar/components/create_event/image_picker_card.dart';
+import 'package:academic_calendar/components/edit_event/edit_event_appbar.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
-import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:academic_calendar/utilities/firebase_storage.dart';
+import 'package:academic_calendar/utilities/url_to_file.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class EditEventPageArguments {
-  final AcademicEvent event;
+class EditEventPage extends CreateEventPage {
+  static String id = "editEventPage";
 
-  EditEventPageArguments(this.event);
-}
-
-class CreateEventPage extends StatefulWidget {
-  static String id = "createEventPage";
-
-  const CreateEventPage({Key? key}) : super(key: key);
+  const EditEventPage({Key? key}) : super(key: key);
 
   @override
-  State<CreateEventPage> createState() => _CreateEventPageState();
+  State<EditEventPage> createState() => _EditEventPageState();
 }
 
-class _CreateEventPageState extends State<CreateEventPage> {
+class _EditEventPageState extends State<EditEventPage> {
   File? image;
-  AcademicEvent newEvent = AcademicEvent(
-    summary: "",
-    startTime: DateTime.now(),
-    endTime: DateTime.now().add(const Duration(hours: 10)),
-    owner: getLoggedInUserId(),
-  );
+  late AcademicEvent newEvent;
 
   void updateImage(File? newImage) {
     setState(() {
@@ -41,9 +32,13 @@ class _CreateEventPageState extends State<CreateEventPage> {
   void handleSubmit(BuildContext context) async {
     context.loaderOverlay.show();
 
-    newEvent.image = await uploadImage(image);
+    final args =
+        ModalRoute.of(context)!.settings.arguments as EditEventPageArguments;
 
-    await addEventToDatabase(
+    newEvent.image = await uploadImage(image, path: args.event.image);
+
+    await updateEventToDatabase(
+      newEvent.id,
       summary: newEvent.summary,
       startTime: newEvent.startTime,
       endTime: newEvent.endTime,
@@ -67,9 +62,14 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as EditEventPageArguments;
+
+    newEvent = AcademicEvent.copy(args.event);
+
     return LoaderOverlay(
       child: Scaffold(
-        appBar: createEventAppBar(),
+        appBar: editEventAppBar(),
         body: SafeArea(
           child: SafeArea(
             child: SingleChildScrollView(
@@ -80,6 +80,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   customTextField(
                     label: "Event Name",
                     hintText: 'Enter event name',
+                    value: newEvent.summary,
                     onValueChange: (value) {
                       setState(() {
                         newEvent.summary = value;
@@ -153,7 +154,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     child: ElevatedButton(
                         onPressed:
                             validateForm() ? () => handleSubmit(context) : null,
-                        child: const Text('Submit'),
+                        child: const Text('Update'),
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size.fromHeight(40),
                         )),
@@ -167,14 +168,16 @@ class _CreateEventPageState extends State<CreateEventPage> {
     );
   }
 
-  Widget customTextField(
-      {required String label,
-      required void Function(String value) onValueChange,
-      String? hintText,
-      bool readOnly = false,
-      int? maxLines,
-      int minLines = 1,
-      TextInputType keyboardType = TextInputType.text}) {
+  Widget customTextField({
+    required String label,
+    required void Function(String value) onValueChange,
+    String? value,
+    String? hintText,
+    bool readOnly = false,
+    int? maxLines,
+    int minLines = 1,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 14.0),
       child: Column(
@@ -188,7 +191,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
               color: Colors.grey.shade700,
             ),
           ),
-          TextField(
+          TextFormField(
+            initialValue: value,
             onChanged: (value) {
               onValueChange(value);
             },

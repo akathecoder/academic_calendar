@@ -8,11 +8,11 @@ FirebaseStorage storage = FirebaseStorage.instance;
 
 final Reference storageRef = FirebaseStorage.instance.ref();
 
-Future<String> uploadImage(File? image) async {
+Future<String> uploadImage(File? image, {String? path}) async {
   Uuid uuid = const Uuid();
 
   String downloadUrl = "";
-  String path = "eventImages/" + uuid.v4();
+  path = path ?? "eventImages/" + uuid.v4();
 
   try {
     if (image != null) {

@@ -62,4 +62,19 @@ class AcademicEvent {
       'id': id,
     };
   }
+
+  AcademicEvent.copy(AcademicEvent event)
+      : this(
+          summary: event.summary,
+          startTime: event.startTime,
+          endTime: event.endTime,
+          owner: event.owner,
+          description: event.description,
+          id: event.id,
+          image: event.image,
+          isExam: event.isExam,
+          isHoliday: event.isHoliday,
+          location: event.location,
+          color: event.color,
+        );
 }
