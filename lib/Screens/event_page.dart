@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 
 class EventPageArguments {
   final AcademicEvent event;
-  final void Function() refreshData;
+  final void Function()? refreshData;
 
-  EventPageArguments({required this.event, required this.refreshData});
+  EventPageArguments({required this.event, this.refreshData});
 }
 
 class EventPage extends StatefulWidget {
   static String id = "eventPage";
 
-  const EventPage({Key? key, required this.refreshData}) : super(key: key);
-  final void Function() refreshData;
+  const EventPage({Key? key, this.refreshData}) : super(key: key);
+  final void Function()? refreshData;
 
   @override
   State<EventPage> createState() => _EventPageState();
@@ -57,7 +57,7 @@ class _EventPageState extends State<EventPage> {
   }
 
   FutureOr onGoBack() {
-    widget.refreshData();
+    widget.refreshData!();
   }
 
   @override
@@ -73,7 +73,7 @@ class _EventPageState extends State<EventPage> {
         child: RefreshIndicator(
           key: _refreshIndicatorKey,
           onRefresh: () async {
-            widget.refreshData();
+            widget.refreshData!();
           },
           child: ListView(children: [
             Padding(
