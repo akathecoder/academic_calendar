@@ -35,7 +35,9 @@ class _EditEventPageState extends State<EditEventPage> {
     final args =
         ModalRoute.of(context)!.settings.arguments as EditEventPageArguments;
 
-    newEvent.image = await uploadImage(image, path: args.event.image);
+    if (image != null) {
+      newEvent.image = await uploadImage(image, path: args.event.image);
+    }
 
     await updateEventToDatabase(
       newEvent.id,

@@ -1,3 +1,4 @@
+import 'package:academic_calendar/Screens/login_page.dart';
 import 'package:academic_calendar/Screens/my_home_page.dart';
 import 'package:academic_calendar/utilities/firebase_auth.dart';
 import 'package:academic_calendar/utilities/snackbar.dart';
@@ -17,12 +18,14 @@ AppBar homePageAppBar({
     actions: [
       IconButton(
         onPressed: () {
-          logoutUser().then((value) => {
-                showSnackbar(
-                  context: context,
-                  text: "Logout Successful",
-                ),
-              });
+          logoutUser()
+              .then((value) => {
+                    showSnackbar(
+                      context: context,
+                      text: "Logout Successful",
+                    ),
+                  })
+              .then((value) => Navigator.pushNamed(context, LoginPage.id));
         },
         icon: const Icon(Icons.logout),
         tooltip: "Logout",
