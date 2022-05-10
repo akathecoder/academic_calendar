@@ -60,6 +60,14 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     });
 
+    void refreshData() async {
+      List<AcademicEvent> newEvents = await getEvents(_selectedDate);
+
+      setState(() {
+        _eventsList = newEvents;
+      });
+    }
+
     return Scaffold(
       appBar: homePageAppBar(
         context: context,
@@ -74,7 +82,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 onDateChanged: handleDateChange,
                 selectedDate: _selectedDate,
               ),
-              EventCardList(eventsList: _eventsList),
+              EventCardList(
+                eventsList: _eventsList,
+                refreshData: refreshData,
+              ),
               // Spacer(),
               // Text(_selectedDate.toString()),
             ],

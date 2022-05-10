@@ -1,12 +1,16 @@
+import 'dart:async';
+
 import 'package:academic_calendar/Screens/event_page.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
 import 'package:academic_calendar/utilities/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class EventCard extends StatefulWidget {
-  const EventCard({Key? key, required this.event}) : super(key: key);
+  const EventCard({Key? key, required this.event, required this.refreshData})
+      : super(key: key);
 
   final AcademicEvent event;
+  final void Function() refreshData;
 
   @override
   State<EventCard> createState() => _EventCardState();
@@ -38,8 +42,13 @@ class _EventCardState extends State<EventCard> {
     Navigator.pushNamed(
       context,
       EventPage.id,
-      arguments: EventPageArguments(widget.event),
-    );
+      arguments: EventPageArguments(
+          event: widget.event, refreshData: widget.refreshData),
+    ).then((value) => onGoBack());
+  }
+
+  FutureOr onGoBack() {
+    widget.refreshData();
   }
 
   @override

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:academic_calendar/Screens/create_event_page.dart';
 import 'package:academic_calendar/Screens/edit_event_page.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
@@ -6,13 +8,15 @@ import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-AppBar eventAppBar(BuildContext context, AcademicEvent event) {
+AppBar eventAppBar(
+    BuildContext context, AcademicEvent event, FutureOr onGoBack) {
   Widget getEditButton() {
     if (getLoggedInUserId() == event.owner) {
       return IconButton(
         onPressed: () {
           Navigator.pushNamed(context, EditEventPage.id,
-              arguments: EditEventPageArguments(event));
+                  arguments: EditEventPageArguments(event))
+              .then((value) => onGoBack);
         },
         icon: const Icon(Icons.edit),
         tooltip: "Edit Event",
