@@ -5,6 +5,7 @@ import 'package:academic_calendar/components/create_event/create_event_appbar.da
 import 'package:academic_calendar/components/create_event/image_picker_card.dart';
 import 'package:academic_calendar/components/edit_event/edit_event_appbar.dart';
 import 'package:academic_calendar/utilities/academic_event.dart';
+import 'package:academic_calendar/utilities/file_from_image_url.dart';
 import 'package:academic_calendar/utilities/firebase_firestore.dart';
 import 'package:academic_calendar/utilities/firebase_storage.dart';
 import 'package:academic_calendar/utilities/url_to_file.dart';
@@ -82,19 +83,14 @@ class _EditEventPageState extends State<EditEventPage> {
         ModalRoute.of(context)!.settings.arguments as EditEventPageArguments;
 
     newEvent ??= AcademicEvent.copy(args.event);
-
-    // log("New Event", name: "New Event", error: {
-    //   newEvent!.id,
-    //   newEvent!.summary,
-    //   newEvent!.startTime,
-    //   newEvent!.endTime,
-    //   newEvent!.owner,
-    //   newEvent!.description,
-    //   newEvent!.location,
-    //   newEvent!.isHoliday,
-    //   newEvent!.isExam,
-    //   newEvent!.image,
-    // });
+    if (newEvent != null) {
+      newEvent = AcademicEvent.copy(args.event);
+      fileFromImageUrl(newEvent!.image).then((value) => {
+            setState(() {
+              image = value;
+            })
+          });
+    }
 
     return LoaderOverlay(
       child: Scaffold(
