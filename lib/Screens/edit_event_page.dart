@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:academic_calendar/Screens/create_event_page.dart';
 import 'package:academic_calendar/components/create_event/create_event_appbar.dart';
@@ -21,7 +22,7 @@ class EditEventPage extends CreateEventPage {
 
 class _EditEventPageState extends State<EditEventPage> {
   File? image;
-  late AcademicEvent newEvent;
+  AcademicEvent? newEvent;
 
   void updateImage(File? newImage) {
     setState(() {
@@ -36,27 +37,40 @@ class _EditEventPageState extends State<EditEventPage> {
         ModalRoute.of(context)!.settings.arguments as EditEventPageArguments;
 
     if (image != null) {
-      newEvent.image = await uploadImage(image, path: args.event.image);
+      newEvent!.image = await uploadImage(image, path: args.event.image);
     }
 
+    // log("Update Event", name: "Update Event", error: {
+    //   newEvent!.id,
+    //   newEvent!.summary,
+    //   newEvent!.startTime,
+    //   newEvent!.endTime,
+    //   newEvent!.owner,
+    //   newEvent!.description,
+    //   newEvent!.location,
+    //   newEvent!.isHoliday,
+    //   newEvent!.isExam,
+    //   newEvent!.image,
+    // });
+
     await updateEventToDatabase(
-      newEvent.id,
-      summary: newEvent.summary,
-      startTime: newEvent.startTime,
-      endTime: newEvent.endTime,
-      owner: newEvent.owner,
-      description: newEvent.description,
-      location: newEvent.location,
-      isHoliday: newEvent.isHoliday,
-      isExam: newEvent.isExam,
-      image: newEvent.image,
+      newEvent!.id,
+      summary: newEvent!.summary,
+      startTime: newEvent!.startTime,
+      endTime: newEvent!.endTime,
+      owner: newEvent!.owner,
+      description: newEvent!.description,
+      location: newEvent!.location,
+      isHoliday: newEvent!.isHoliday,
+      isExam: newEvent!.isExam,
+      image: newEvent!.image,
     );
 
     Navigator.pop(context);
   }
 
   bool validateForm() {
-    if (newEvent.summary.isNotEmpty) {
+    if (newEvent!.summary.isNotEmpty) {
       return true;
     }
     return false;
@@ -67,7 +81,20 @@ class _EditEventPageState extends State<EditEventPage> {
     final args =
         ModalRoute.of(context)!.settings.arguments as EditEventPageArguments;
 
-    newEvent = AcademicEvent.copy(args.event);
+    newEvent ??= AcademicEvent.copy(args.event);
+
+    // log("New Event", name: "New Event", error: {
+    //   newEvent!.id,
+    //   newEvent!.summary,
+    //   newEvent!.startTime,
+    //   newEvent!.endTime,
+    //   newEvent!.owner,
+    //   newEvent!.description,
+    //   newEvent!.location,
+    //   newEvent!.isHoliday,
+    //   newEvent!.isExam,
+    //   newEvent!.image,
+    // });
 
     return LoaderOverlay(
       child: Scaffold(
@@ -82,32 +109,32 @@ class _EditEventPageState extends State<EditEventPage> {
                   customTextField(
                     label: "Event Name",
                     hintText: 'Enter event name',
-                    value: newEvent.summary,
+                    value: newEvent!.summary,
                     onValueChange: (value) {
                       setState(() {
-                        newEvent.summary = value;
+                        newEvent!.summary = value;
                       });
                     },
                   ),
                   customDateField(
                     label: "Start Date",
                     hintText: 'Enter Start date',
-                    date: newEvent.startTime,
+                    date: newEvent!.startTime,
                     firstDate: DateTime.now(),
                     onValueChange: (value) {
                       setState(() {
-                        newEvent.startTime = value;
+                        newEvent!.startTime = value;
                       });
                     },
                   ),
                   customDateField(
                     label: "End Date",
                     hintText: 'Enter End date',
-                    date: newEvent.endTime,
-                    firstDate: newEvent.endTime,
+                    date: newEvent!.endTime,
+                    firstDate: newEvent!.endTime,
                     onValueChange: (value) {
                       setState(() {
-                        newEvent.endTime = value;
+                        newEvent!.endTime = value;
                       });
                     },
                   ),
@@ -117,36 +144,38 @@ class _EditEventPageState extends State<EditEventPage> {
                     minLines: 6,
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
+                    value: newEvent!.description,
                     onValueChange: (value) {
                       setState(() {
-                        newEvent.description = value;
+                        newEvent!.description = value;
                       });
                     },
                   ),
                   customTextField(
                     label: "Location",
                     hintText: 'Enter event location',
+                    value: newEvent!.location,
                     onValueChange: (value) {
                       setState(() {
-                        newEvent.location = value;
+                        newEvent!.location = value;
                       });
                     },
                   ),
                   customCheckboxField(
                     label: "Holiday",
-                    value: newEvent.isHoliday,
+                    value: newEvent!.isHoliday,
                     onValueChange: (value) {
                       setState(() {
-                        newEvent.isHoliday = value;
+                        newEvent!.isHoliday = value;
                       });
                     },
                   ),
                   customCheckboxField(
                     label: "Exam",
-                    value: newEvent.isExam,
+                    value: newEvent!.isExam,
                     onValueChange: (value) {
                       setState(() {
-                        newEvent.isExam = value;
+                        newEvent!.isExam = value;
                       });
                     },
                   ),
